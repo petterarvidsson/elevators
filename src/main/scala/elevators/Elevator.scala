@@ -1,7 +1,13 @@
 package elevators
 
-case class Elevator(goals: Set[Floor], position: Position, direction: Option[Direction]) {
+case class Elevator(goals: Set[Floor], position: Position) {
   private val N = ElevatorGroup.Floors - 1
+
+  private val nearestGoal = goals.toSeq.sortBy(_.toPosition.distanceTo(position)).headOption
+
+  private val direction = nearestGoal flatMap { floor =>
+    position.directionTo(floor)
+  }
 
   private def towardsCallSameDirection(floor: Floor): Int =
     (N + 2) - floor.floorsBetween(position)
@@ -12,13 +18,13 @@ case class Elevator(goals: Set[Floor], position: Position, direction: Option[Dir
   private def awayFromCall(floor: Floor) =
     1
 
-  def floorRequestScore(floor: Floor, direction: Direction): Int = {
+  def floorRequestScore(floor: Floor, requestDirection: Direction): Int = {
     val directionToCall = position.directionTo(floor)
 
-    (directionToCall, this.direction) match {
+    (directionToCall, direction) match {
       case (Some(toDirection), Some(thisDirection)) // Towards the call
           if toDirection == thisDirection =>
-        if(thisDirection == direction) {
+        if(thisDirection == requestDirection) {
           towardsCallSameDirection(floor)
         } else {
           towardsCallOppositeDirection(floor)
@@ -29,9 +35,5 @@ case class Elevator(goals: Set[Floor], position: Position, direction: Option[Dir
         towardsCallSameDirection(floor)
     }
   }
-}
 
-object Elevator {
-  def apply(position: Position, direction: Option[Direction]): Elevator =
-    apply(Set(), position, direction)
 }

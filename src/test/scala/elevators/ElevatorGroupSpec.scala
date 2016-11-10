@@ -6,20 +6,20 @@ class ElevatorGroupSpec extends WordSpec with Matchers {
 
   "An ElevatorGroup" when {
 
-    "having 2 elevators traveling Up from floor 2 and 5" should {
+    "having 2 elevators traveling to 9 from floor 2 and 5" should {
       val state =
         ElevatorGroup(
           Seq(
-            Elevator(Floor(2).toPosition, Some(Up)),
-            Elevator(Floor(5).toPosition, Some(Up))
+            Elevator(Set(Floor(9)), Floor(2).toPosition),
+            Elevator(Set(Floor(9)), Floor(5).toPosition)
           )
         )
 
       "choose elevator 1 for floor 4" in {
         val result = ElevatorGroup(
           Seq(
-            Elevator(Set(Floor(4)), Floor(2).toPosition, Some(Up)),
-            Elevator(Floor(5).toPosition, Some(Up))
+            Elevator(Set(Floor(4), Floor(9)), Floor(2).toPosition),
+            Elevator(Set(Floor(9)), Floor(5).toPosition)
           )
         )
 
@@ -29,19 +29,19 @@ class ElevatorGroupSpec extends WordSpec with Matchers {
       "choose elevator 2 for floor 6" in {
         val result = ElevatorGroup(
           Seq(
-            Elevator(Floor(2).toPosition, Some(Up)),
-            Elevator(Set(Floor(6)), Floor(5).toPosition, Some(Up))
+            Elevator(Set(Floor(9)), Floor(2).toPosition),
+            Elevator(Set(Floor(6), Floor(9)), Floor(5).toPosition)
           )
         )
 
         floorRequest(Floor(6), Up, state) shouldEqual result
       }
 
-      "choose an elevator floor 6 traveling down" in {
+      "choose an elevator 2 for floor 6 traveling down" in {
         val result = ElevatorGroup(
           Seq(
-            Elevator(Floor(2).toPosition, Some(Up)),
-            Elevator(Set(Floor(6)), Floor(5).toPosition, Some(Up))
+            Elevator(Set(Floor(9)), Floor(2).toPosition),
+            Elevator(Set(Floor(6), Floor(9)), Floor(5).toPosition)
           )
         )
 
@@ -49,20 +49,20 @@ class ElevatorGroupSpec extends WordSpec with Matchers {
       }
     }
 
-    "having first elevator traveling Up from floor 2 and second traveling down from 5" should {
+    "having first elevator traveling to floor 9 from floor 2 and second traveling to floor 0 from 5" should {
       val state =
         ElevatorGroup(
           Seq(
-            Elevator(Floor(2).toPosition, Some(Up)),
-            Elevator(Floor(5).toPosition, Some(Down))
+            Elevator(Set(Floor(9)), Floor(2).toPosition),
+            Elevator(Set(Floor(0)), Floor(5).toPosition)
           )
         )
 
       "choose elevator 1 for floor 4 Up" in {
         val result = ElevatorGroup(
           Seq(
-            Elevator(Set(Floor(4)), Floor(2).toPosition, Some(Up)),
-            Elevator(Floor(5).toPosition, Some(Down))
+            Elevator(Set(Floor(4), Floor(9)), Floor(2).toPosition),
+            Elevator(Set(Floor(0)), Floor(5).toPosition)
           )
         )
 
@@ -72,8 +72,8 @@ class ElevatorGroupSpec extends WordSpec with Matchers {
       "choose elevator 2 for floor 4 Down" in {
         val result = ElevatorGroup(
           Seq(
-            Elevator(Floor(2).toPosition, Some(Up)),
-            Elevator(Set(Floor(4)), Floor(5).toPosition, Some(Down))
+            Elevator(Set(Floor(9)), Floor(2).toPosition),
+            Elevator(Set(Floor(4), Floor(0)), Floor(5).toPosition)
           )
         )
 
@@ -85,15 +85,15 @@ class ElevatorGroupSpec extends WordSpec with Matchers {
       val state =
         ElevatorGroup(
           Seq(
-            Elevator(Floor(2).toPosition, None),
-            Elevator(Floor(5).toPosition, None)
+            Elevator(Set(), Floor(2).toPosition),
+            Elevator(Set(), Floor(5).toPosition)
           )
         )
       "choose elevator 2 for floor 4 Down" in {
         val result = ElevatorGroup(
           Seq(
-            Elevator(Floor(2).toPosition, None),
-            Elevator(Set(Floor(4)), Floor(5).toPosition, None)
+            Elevator(Set(), Floor(2).toPosition),
+            Elevator(Set(Floor(4)), Floor(5).toPosition)
           )
         )
 
@@ -103,8 +103,8 @@ class ElevatorGroupSpec extends WordSpec with Matchers {
       "choose elevator 2 for floor 4 Up" in {
         val result = ElevatorGroup(
           Seq(
-            Elevator(Floor(2).toPosition, None),
-            Elevator(Set(Floor(4)), Floor(5).toPosition, None)
+            Elevator(Set(), Floor(2).toPosition),
+            Elevator(Set(Floor(4)), Floor(5).toPosition)
           )
         )
 
@@ -115,8 +115,8 @@ class ElevatorGroupSpec extends WordSpec with Matchers {
       "choose elevator 1 for floor 3 Up" in {
         val result = ElevatorGroup(
           Seq(
-            Elevator(Set(Floor(3)), Floor(2).toPosition, None),
-            Elevator(Floor(5).toPosition, None)
+            Elevator(Set(Floor(3)), Floor(2).toPosition),
+            Elevator(Set(), Floor(5).toPosition)
           )
         )
 
