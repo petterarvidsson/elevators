@@ -4,4 +4,5 @@ case class ElevatorGroup(elevators: Seq[Elevator])
 
 case object ElevatorGroup {
   val StepsBetweenFloors = 10
+  val Floors = 10
 }
