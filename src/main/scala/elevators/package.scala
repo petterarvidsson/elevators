@@ -1,10 +1,9 @@
 package elevators
 
 object `package` {
-  def floorRequest(floor: Floor, direction: Direction, group: ElevatorGroup)
-    (implicit config: ElevatorConfig): ElevatorGroup = {
-    val bestIndex = group
-      .elevators
+  def floorRequest(floor: Floor, direction: Direction, group: ElevatorGroup)(
+      implicit config: ElevatorConfig): ElevatorGroup = {
+    val bestIndex = group.elevators
       .map(_.floorRequestScore(floor, direction))
       .zipWithIndex
       .sortWith(_._1 > _._1)

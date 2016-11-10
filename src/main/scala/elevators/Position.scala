@@ -3,9 +3,9 @@ package elevators
 case class Position(position: Int) {
 
   def directionTo(other: Position): Option[Direction] =
-    if(this == other) {
+    if (this == other) {
       None
-    } else if(other.position > position) {
+    } else if (other.position > position) {
       Some(Up)
     } else {
       Some(Down)
