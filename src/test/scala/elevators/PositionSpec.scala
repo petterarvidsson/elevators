@@ -32,7 +32,5 @@ class PositionSpec extends WordSpec with Matchers {
         Position(0).directionTo(Floor(1)) shouldEqual Some(Up)
       }
     }
-
   }
-
 }
