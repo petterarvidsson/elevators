@@ -1,7 +1,7 @@
 package elevators
 
-case class Elevator(goals: Set[Floor], position: Position) {
-  private val N = ElevatorGroup.Floors - 1
+case class Elevator(goals: Set[Floor], position: Position)(implicit config: ElevatorConfig) {
+  private val N = config.floors - 1
 
   private val nearestGoal = goals.toSeq.sortBy(_.toPosition.distanceTo(position)).headOption
 

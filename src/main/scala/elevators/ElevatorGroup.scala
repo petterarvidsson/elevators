@@ -2,7 +2,9 @@ package elevators
 
 case class ElevatorGroup(elevators: Seq[Elevator])
 
-case object ElevatorGroup {
-  val StepsBetweenFloors = 10
-  val Floors = 10
+object ElevatorGroup {
+  def apply()(implicit config: ElevatorConfig): ElevatorGroup =
+    apply(for(i <- 0 until config.elevators) yield {
+      Elevator(Set(), Position(0))
+    })
 }

@@ -4,6 +4,8 @@ import org.scalatest._
 
 class ElevatorGroupSpec extends WordSpec with Matchers {
 
+  implicit val config = ElevatorConfig.defaultConfig
+
   "An ElevatorGroup" when {
 
     "having 2 elevators traveling to 9 from floor 2 and 5" should {

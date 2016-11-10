@@ -1,7 +1,8 @@
 package elevators
 
 object `package` {
-  def floorRequest(floor: Floor, direction: Direction, group: ElevatorGroup): ElevatorGroup = {
+  def floorRequest(floor: Floor, direction: Direction, group: ElevatorGroup)
+    (implicit config: ElevatorConfig): ElevatorGroup = {
     val bestIndex = group
       .elevators
       .map(_.floorRequestScore(floor, direction))

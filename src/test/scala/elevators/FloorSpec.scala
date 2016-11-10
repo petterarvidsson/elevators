@@ -4,6 +4,8 @@ import org.scalatest._
 
 class FloorSpec extends WordSpec with Matchers {
 
+  implicit val config = ElevatorConfig.defaultConfig
+
   "A Floor" when {
     "floor 1" should {
       "return position 10" in {

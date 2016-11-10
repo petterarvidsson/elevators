@@ -1,19 +1,19 @@
 package elevators
 
-case class Floor(floor: Int) {
+case class Floor(floor: Int)(implicit config: ElevatorConfig) {
 
   def toPosition: Position =
-    Position(floor * ElevatorGroup.StepsBetweenFloors)
+    Position(floor * config.stepsBetweenFloors)
 
   def floorsBetween(other: Floor): Int =
     Math.abs(other.floor - floor)
 
-  def floorsBetween(other: Position): Int =
-    floorsBetween(Floor(other))
+  def floorsBetween(position: Position): Int =
+    floorsBetween(Floor(position))
 
 }
 
 object Floor {
-  def apply(position: Position): Floor =
-    apply(position.position / ElevatorGroup.StepsBetweenFloors)
+  def apply(position: Position)(implicit config: ElevatorConfig): Floor =
+    apply(position.position / config.stepsBetweenFloors)
 }

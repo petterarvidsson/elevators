@@ -4,6 +4,8 @@ import org.scalatest._
 
 class PositionSpec extends WordSpec with Matchers {
 
+  implicit val config = ElevatorConfig.defaultConfig
+
   "A Position" when {
     "above another" should {
       "return directionTo Down" in {

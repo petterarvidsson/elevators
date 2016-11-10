@@ -4,6 +4,8 @@ import org.scalatest._
 
 class ElevatorSpec extends WordSpec with Matchers {
 
+  implicit val config = ElevatorConfig.defaultConfig
+
   "An Elevator" when {
     "standing at floor 1" should {
       val elevator = Elevator(Set(), Floor(1).toPosition)
