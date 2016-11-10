@@ -36,4 +36,24 @@ case class Elevator(goals: Set[Floor], position: Position) {
     }
   }
 
+  def step: Elevator =
+    (nearestGoal, direction) match {
+      case (Some(floor), Some(direction)) =>
+        val nextPosition = position.step(direction)
+        if(nextPosition == floor.toPosition) { // Arrived at goal floor
+          copy(goals = goals - floor, position = nextPosition)
+        } else { // Still traveling
+          copy(position = nextPosition)
+        }
+      case _ => // We have no goals so we are standing still
+        this
+    }
+
+  def step(steps: Int): Elevator =
+    if(steps > 0) {
+      step.step(steps - 1)
+    } else {
+      this
+    }
+
 }

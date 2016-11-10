@@ -14,4 +14,13 @@ object `package` {
     val updatedElevator = bestElevator.copy(goals = bestElevator.goals + floor)
     group.copy(elevators = group.elevators.updated(bestIndex, updatedElevator))
   }
+
+  def step(group: ElevatorGroup, steps: Int): ElevatorGroup = {
+    val updatedElevators = group.elevators.map(_.step(steps))
+    group.copy(elevators = updatedElevators)
+  }
+
+  def step(group: ElevatorGroup): ElevatorGroup =
+    step(group, 1)
+
 }

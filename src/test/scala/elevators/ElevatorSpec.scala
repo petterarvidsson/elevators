@@ -16,6 +16,9 @@ class ElevatorSpec extends WordSpec with Matchers {
       "have score 10 to floor 2" in {
         elevator.floorRequestScore(Floor(2), Up) shouldEqual 10
       }
+      "don't move when stepped" in {
+        elevator.step shouldEqual elevator
+      }
     }
     "traveling to floor 5 from floor 1" should {
       val elevator = Elevator(Set(Floor(5)), Floor(1).toPosition)
@@ -27,6 +30,15 @@ class ElevatorSpec extends WordSpec with Matchers {
       }
       "have score 9 to floor 2 when passenger travels Down" in {
         elevator.floorRequestScore(Floor(2), Down) shouldEqual 9
+      }
+      "progress up when stepped" in {
+        elevator.step.position shouldEqual Floor(1).toPosition.step(Up)
+      }
+      "remove goal when reached" in {
+        elevator.step(40) shouldEqual Elevator(Set(), Floor(5).toPosition)
+      }
+      "still be traveling until goal is reached" in {
+        elevator.step(39) shouldEqual Elevator(Set(Floor(5)), Position(49))
       }
     }
     "traveling to floor 0 from floor 1" should {

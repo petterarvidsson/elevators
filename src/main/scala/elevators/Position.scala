@@ -17,5 +17,11 @@ case class Position(position: Int) {
   def distanceTo(other: Position): Int =
     Math.abs(other.position - position)
 
-
+  def step(direction: Direction): Position =
+    direction match {
+      case Up =>
+        copy(position = position + 1)
+      case Down =>
+        copy(position = position - 1)
+    }
 }
