@@ -120,4 +120,5 @@ In no particular order:
 - Does not support elevator capacities.
 - May contain bugs, please check out the tests to see where coverage may be lacking.
 - Heuristic may be a bit too naive.
+- Time that elevator stays at floor (opening and closing doors) not taken into account.
 - And all that other stuff I forgot to write.
