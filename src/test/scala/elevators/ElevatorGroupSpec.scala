@@ -61,8 +61,6 @@ class ElevatorGroupSpec extends WordSpec with Matchers {
 
         floorRequest(Floor(6), Down, state) shouldEqual result
       }
-
-
     }
 
     "having first elevator traveling to floor 9 from floor 2 and second traveling to floor 0 from 5" should {
@@ -128,7 +126,6 @@ class ElevatorGroupSpec extends WordSpec with Matchers {
         floorRequest(Floor(4), Up, state) shouldEqual result
       }
 
-
       "choose elevator 1 for floor 3 Up" in {
         val result = ElevatorGroup(
           Seq(
@@ -139,8 +136,6 @@ class ElevatorGroupSpec extends WordSpec with Matchers {
 
         floorRequest(Floor(3), Up, state) shouldEqual result
       }
-
     }
   }
-
 }
