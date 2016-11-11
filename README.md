@@ -2,32 +2,39 @@
 Simple elevator scheduling.
 
 ## Step 1: Get a grip
-Elevator scheduling sounds like a problem with a huge solution space,
-my gut feeling is to rule out any optimal solution. A short google
-session leads to
-[this presentation](http://www.columbia.edu/~cs2035/courses/ieor4405.S13/p14.pdf). Seems
-to be on the correct level for this mini project (as simple as
-possible). According to slide 5 it reduces to TDTSP (a generalization
-of TSP) and is thus at least as complex as TSP which already is in the
-class of NP-complete problems. Basically that means that there is no
-choice but using an heuristic. I'll go with the naive heuristic on
-slide 12, seems good enough. It is a big improvement from the FCFS
-(First Come First Server) heuristic since it takes into account both
-the distance between the elevator and the requested floor, the
-direction of travel of the elevator (to or away from that floor) and
-the direction the user wants to travel in after entering the elevator.
+The first thing that comes to mind when thinking about elevator
+scheduling, is that it seems to have all the characteristics of a
+problem with a really big solution space. Therefore I am pretty sure
+that it is a good idea to try to find an optimal solution. A short
+google session leads to
+[this presentation](http://www.columbia.edu/~cs2035/courses/ieor4405.S13/p14.pdf). This
+seems to be on the correct level for this mini project (as simple as
+possible). According to slide 5 it reduces to Time-Dependent Traveling
+Sales Person (TDTSP) which is a generalization of the Traveling Sales
+Person (TSP). It is thus at least as complex as TSP which already is
+in the class of NP-complete problems. Basically that means that there
+is no choice, but using an heuristic. I'll go with the naive heuristic
+on slide 12, which seems good enough. The heuristic takes the maximum
+number of floors, subtracts the distance between the target and the
+current floor, and gives a small penalty if the elevator is traveling
+in the opposite direction as the user wants to travel. It is a big
+improvement from the First Come First Server (FCFS) heuristic since it
+takes into account both the distance between the elevator and the
+requested floor, the direction of travel of the elevator (to or away
+from that floor) and the direction the user wants to travel in after
+entering the elevator.
 
 ## Step 2: Design some data structures
-Well, "elevator" seems to be central, so there will be an elevator
-class. Floor and direction seems a core part of the selected
-heuristic, lets add classes for them as well. We want to be able to do
-some stepping, so the smallest distance is not a floor, but something
-smaller. We can add a position class to keep track of that. In the end
-we want to act on a bunch of elevators, so something like an elevator
-group could make sense. Then there will be settings like the number of
-elevators and the number of floors, so a config case class is probably
-also required. Please generate the documentation to see the end
-result:
+Elevator seems to be central, so there will be an elevator
+class. Floor and direction seems to be a core part of the selected
+heuristic, so it makes sense to have classes for them as well. We want
+to be able to do some stepping. This means that the smallest distance
+is not a floor, but something smaller. We can add a position class to
+keep track of that. In the end we want to act on a bunch of elevators,
+so something like an elevator group would make sense. Then there will
+be settings like the number of elevators and the number of floors, so
+a config case class is probably also required. Please generate the
+documentation to see the end result:
 
 ```
 sbt doc
@@ -110,15 +117,34 @@ group: elevators.ElevatorGroup = ElevatorGroup(Vector(Elevator(Set(Floor(5), Flo
 scala> group = floorRequest(Floor(3), Down, group)
 group: elevators.ElevatorGroup = ElevatorGroup(Vector(Elevator(Set(Floor(5), Floor(7)),Position(40)), Elevator(Set(Floor(3)),Position(0)), Elevator(Set(),Position(0)), Elevator(Set(),Position(0)), Elevator(Set(),Position(0))))
 
-// That was taken by the next elevator, I guess you can now play around as much as you like :-)
+// That was taken by the next elevator
+// Let's now check out what the first elevator is doing
+
+// Heading for floor 5 and 7
+scala> group.elevators(0).goals
+res0: Set[elevators.Floor] = Set(Floor(5), Floor(7))
+
+// At position 40
+scala> group.elevators(0).position
+res1: elevators.Position = Position(40)
+
+// Traveling upwards
+scala> group.elevators(0).direction
+res2: Option[elevators.Direction] = Some(Up)
+
+//I guess you can now play around as much as you like :-)
+
 ```
 
 # Drawbacks of this implementation
 In no particular order:
 
-- Does not cover corner cases like requesting a floor outside of the elevators capability.
+- Does not cover corner cases like requesting a floor outside of the
+  elevators capability.
 - Does not support elevator capacities.
-- May contain bugs, please check out the tests to see where coverage may be lacking.
+- May contain bugs, please check out the tests to see where coverage
+  may be lacking.
 - Heuristic may be a bit too naive.
-- Time that elevator stays at floor (opening and closing doors) not taken into account.
+- Time that elevator stays at floor (opening and closing doors) not
+  taken into account.
 - And all that other stuff I forgot to write.

@@ -20,8 +20,8 @@ case class Elevator(goals: Set[Floor], position: Position)(
   private val nearestGoal =
     goals.toSeq.sortBy(_.toPosition.distanceTo(position)).headOption
 
-  // The current direction of the elevator
-  private val direction = nearestGoal flatMap { floor =>
+  /** The some current direction of the elevator or none. */
+  val direction = nearestGoal flatMap { floor =>
     position.directionTo(floor)
   }
 
