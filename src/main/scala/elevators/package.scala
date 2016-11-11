@@ -18,7 +18,7 @@ object `package` {
       .head
 
     val bestElevator = group.elevators(bestIndex)
-    val updatedElevator = if(bestElevator.position != floor.toPosition) {
+    val updatedElevator = if (bestElevator.position != floor.toPosition) {
       bestElevator.copy(goals = bestElevator.goals + floor)
     } else {
       bestElevator // The elevator is already there
