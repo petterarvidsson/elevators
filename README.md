@@ -5,7 +5,7 @@ Simple elevator scheduling.
 The first thing that comes to mind when thinking about elevator
 scheduling, is that it seems to have all the characteristics of a
 problem with a really big solution space. Therefore I am pretty sure
-that it is a good idea to try to find an optimal solution. A short
+that it is not a good idea to try to find an optimal solution. A short
 google session leads to
 [this presentation](http://www.columbia.edu/~cs2035/courses/ieor4405.S13/p14.pdf). This
 seems to be on the correct level for this mini project (as simple as
